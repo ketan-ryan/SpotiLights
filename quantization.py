@@ -5,7 +5,7 @@ import numpy as np
 class median_cut_quantizer:
     # Will result in a palette with 2^x colors
     MAX_ITERATIONS = 4
-    MAX_WIDTH = 256
+    MAX_WIDTH = 64
     palette = []
 
     def load_img(self, img_path):

@@ -2,13 +2,14 @@ from PIL import Image
 import numpy as np
 
 # Implementation based on this article https://en.wikipedia.org/wiki/Median_cut
-class median_cut_quantizer:
+class MedianCutQuantizer:
     # Will result in a palette with 2^x colors
     MAX_ITERATIONS = 4
     MAX_WIDTH = 64
     palette = []
 
     def load_img(self, img_path):
+        self.palette = []
         img = Image.open(img_path)
 
         # We don't need lots of detail, so we can shrink the image
@@ -32,6 +33,8 @@ class median_cut_quantizer:
         rgb_arr.remove([])
         # Convert to numpy array so we can use numpy operations on it
         rgb_arr = np.array(rgb_arr)
+
+        print('Image loaded')
         return rgb_arr
 
 
@@ -66,13 +69,3 @@ class median_cut_quantizer:
         middle_index = len(array) // 2
 
         return self.median_cut(array[:middle_index], depth - 1), self.median_cut(array[middle_index:], depth - 1)
-
-
-if __name__ == '__main__':
-    quantizer = median_cut_quantizer()
-    quantizer.median_cut(quantizer.load_img('test2.jpg'))
-
-    for color in quantizer.palette:
-        palette_img = Image.new('RGB', (10, 10), (int(color[0]), int(color[1]), int(color[2])))
-        palette_img.show()
-        palette_img.close()
